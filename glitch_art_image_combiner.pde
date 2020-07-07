@@ -121,13 +121,6 @@ void draw() {
   mode++;
 }
 
-color invert(color c) {
-  float r = red(c);
-  float g = green(c);
-  float b = blue(c);
-  return color(255 - r, 255 - g, 255 - b);
-}
-
 void getFile1(File selection) {
   if (selection == null) {
     println("Something went wrong picking the image");
