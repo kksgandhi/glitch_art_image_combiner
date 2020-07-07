@@ -1,3 +1,5 @@
+String img1Path;
+String img2Path;
 PImage img1;
 PImage img2;
 int wid;
@@ -7,13 +9,30 @@ String path;
 int mode = 0;
 
 void setup() {
+  if (args != null && args.length == 2) {
+    img1Path = args[0];
+    img2Path = args[1];
+  }
+  else {
+    selectInput("First Image: ", "getFile1");
+    selectInput("Second Image: ", "getFile2");
+    println("======================");
+    println("IF YOU ARE RUNNING THIS FROM THE COMMAND LINE");
+    println("CONSIDER PASSING THE FILES AS COMMAND LINE ARGUMENTS");
+    println("======================");
+  }
+  while (img1Path == null || img2Path == null) {
+    delay(100);
+  }
   try {
-    img1 = loadImage(args[0]);
-    img2 = loadImage(args[1]);
+    println("Loading image 1: " + img1Path);
+    img1 = loadImage(img1Path);
+    println("Loading image 2: " + img2Path);
+    img2 = loadImage(img2Path);
   }
   catch (NullPointerException e) {
-     println("Unable to find image, please see Readme");
-     System.exit(1);
+    println("Something went wrong loading your images");
+    System.exit(1);
   }
   img1.resize(0,1000);
   img2.resize(0,1000);
@@ -107,4 +126,23 @@ color invert(color c) {
   float g = green(c);
   float b = blue(c);
   return color(255 - r, 255 - g, 255 - b);
+}
+
+void getFile1(File selection) {
+  if (selection == null) {
+    println("Something went wrong picking the image");
+    System.exit(1);
+  }
+  else {
+    img1Path = selection.getAbsolutePath();
+  }
+}
+void getFile2(File selection) {
+  if (selection == null) {
+    println("Something went wrong picking the image");
+    System.exit(1);
+  }
+  else {
+    img2Path = selection.getAbsolutePath();
+  }
 }
